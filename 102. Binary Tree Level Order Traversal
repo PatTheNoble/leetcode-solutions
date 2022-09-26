@@ -1,0 +1,18 @@
+//https://leetcode.com/problems/binary-tree-level-order-traversal/
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        helper(root, 0, res);
+        return res;
+    }
+    public void helper(TreeNode curr, int level, List<List<Integer>> r){
+        if(curr == null)
+            return;
+        if(r.size() <= level) //If there is no list for this level yet, add one.
+            r.add(new ArrayList<Integer>());
+        
+        r.get(level).add(curr.val);
+        helper(curr.left, level+1, r);
+        helper(curr.right, level+1, r);
+    }
+}
