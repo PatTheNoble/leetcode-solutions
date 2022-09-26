@@ -1,0 +1,34 @@
+//https://leetcode.com/problems/merge-intervals/solution/
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        ArrayList<int[]> resList = new ArrayList<int[]>();
+        for(int i = 0; i < intervals.length; i++){
+            //System.out.println(intervals[i][0] + " " + intervals[i][1]);
+            resList.add(intervals[i]);
+        }
+        
+        for(int i = 0; i < resList.size(); i++){
+            int[] currI = resList.get(i);
+            for(int j = 0; j < resList.size(); j++){
+                if(i == j)
+                    continue;
+                int[] currJ = resList.get(j);
+                System.out.println(currI[0] + " " + currI[1] + " | " + currJ[0] + " " + currJ[1]);
+                if( (currJ[0] >= currI[0] && currJ[0] <= currI[1] ) || (currJ[1] <= currI[1] && currJ[1] >= currI[0])){
+                    resList.remove(j);
+                    currI[0] = Math.min(currI[0], currJ[0]);
+                    currI[1] = Math.max(currI[1], currJ[1]);
+                    System.out.println("R1");
+                }
+            }
+        }
+
+        // Convert list to array
+        int[][] res = new int[resList.size()][2];
+        for(int i = 0; i < resList.size(); i++){
+            res[i] = resList.get(i);
+        }
+
+        return res;
+    }
+}
