@@ -1,0 +1,23 @@
+//https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/
+class Solution {
+    public Node connect(Node root) {
+        if(root == null)
+            return null;
+        List<Node> res = new ArrayList<Node>();
+        helper(root, res, 0);
+        return res.get(0);
+    }
+    
+    public void helper(Node curr, List<Node> list, int level) {
+        if(curr == null)
+            return;
+        if(list.size() <= level)
+            list.add(curr);
+        else{
+            list.get(level).next = curr;
+            list.set(level, curr);
+        }
+        helper(curr.left, list, level+1);
+        helper(curr.right, list, level+1);
+    }
+}
