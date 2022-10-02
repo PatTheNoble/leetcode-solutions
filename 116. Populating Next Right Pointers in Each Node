@@ -1,0 +1,20 @@
+//https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
+class Solution {
+    public Node connect(Node root) {
+    Node curr = root, prev = root, head = curr;
+        while(curr != null && prev != null){
+            if(curr.left != null)
+                curr.left.next = curr.right;
+            if(curr.next != null && curr.right != null) // If a node is to the right of me (As set by my parent)
+                curr.right.next = curr.next.left;
+            
+            if(curr.next != null) //If a node is to the right of me, become it
+                curr = curr.next;
+            else{
+                curr = prev.left; //Otherwise, go down a level, store self in prev.
+                prev = curr;
+            }
+        }
+        return head;
+    }
+}
