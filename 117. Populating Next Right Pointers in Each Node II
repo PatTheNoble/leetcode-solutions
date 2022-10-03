@@ -1,4 +1,6 @@
 //https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/
+
+//V1
 class Solution {
     public Node connect(Node root) {
         if(root == null)
@@ -20,4 +22,47 @@ class Solution {
         helper(curr.left, list, level+1);
         helper(curr.right, list, level+1);
     }
+}
+
+// FOLLOW UP:
+class Solution { //Note, previous levels set up the "next" pointers for the current loop.
+    public Node connect(Node root) {
+    Node curr = root, prev = root, head = curr;
+        while(curr != null && prev != null){
+            if(curr.next == null){ //If we are at the very right of this level:
+                if(curr.left != null)
+                    curr.left.next = curr.right; 
+            }
+            else{ //If we are not at the very right of this level,
+                if(curr.left != null){ //LEFT CHILD:
+                    if(curr.right != null)
+                        curr.left.next = curr.right;
+                    else
+                        curr.left.next = findNextNode(curr.next);
+                }
+                if(curr.right != null) //RIGHT CHILD:
+                    curr.right.next = findNextNode(curr.next);
+            }
+
+            
+            if(curr.next != null) //Loop through this level horizontally (If any left)
+                curr = curr.next;
+            else{
+                curr = findNextNode(prev); //Find the next node that is down a level. Loop down a level.
+                prev = curr;
+            }
+        }
+        return head;
+    }
+     public Node findNextNode(Node nxt) { //Find next node STARTING with the one passed in
+         while(nxt != null){
+             if(nxt.left != null)
+                 return nxt.left;
+             else if(nxt.right != null)
+                 return nxt.right;
+             else
+                 nxt = nxt.next;
+         }
+         return null;
+     }
 }
